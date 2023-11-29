@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //  数据源
+      let person = {
+        name: "张三",
+        age: 18,
+      };
+
+      // 模拟vue2中的响应式
+      //#region
+      /*let p = {};
+       Object.defineProperty(p, "name", {
+        get() {
+          // 有人读取name时调用
+          return person.name;
+        },
+        set(value) {
+          // 有人修改name时调用
+          console.log("有人修改了name属性，我发现了，我要去更新界面了");
+          person.name = value;
+        },
+      });
+      Object.defineProperty(p, "age", {
+        get() {
+          // 有人读取name时调用
+          return person.age;
+        },
+        set(value) {
+          // 有人修改name时调用
+          console.log("有人修改了age属性，我发现了，我要去更新界面了");
+          person.name = age;
+        },
+      }); */
+      //#endregion
+
+      // 模拟Vue3中实现响应式
+      //#region
+      const p = new Proxy(person, {
+        // 有人读取p的某个属性时调用
+        get(target, propName) {
+          console.log(`有人读取${propName}属性`);
+          return target[propName];
+        },
+        // 有人修改p的某个值调用，或给p追加某个值的时候调用
+        set(target, propName, value) {
+          console.log(`有人修改${propName}属性`);
+          target[propName] = value;
+        },
+        // 有人删除某个属性的时候调用
+        deleteProperty(target, propName) {
+          console.log(`有人删除了${propName}属性`);
+          return delete target[propName];
+        },
+      });
+      //#endregion
+
+      let obj = { a: 1, b: 2 };
+      //#region 
+      /* const x1 = Reflect.defineProperty(obj, "c", {
+        get() {
+          return 3;
+        },
+      });
+      console.log(x1);
+
+      const x2 = Reflect.defineProperty(obj, "c", {
+        get() {
+          return 4;
+        },
+      }); */
+      //#endregion
+
+
+      console.log(x2);
+    </script>
+  </body>
+</html>
