@@ -1,42 +1,76 @@
 <template>
-  <h1>一个人的信息</h1>
-  姓：<input type="text" v-model="person.firstName" /><br />
-  名：<input type="text" v-model="person.lastName" /><br />
-  全名：<input type="text" v-model="person.fullName" />
+  <h2>当前求和为：{{ sum }}</h2>
+  <button @click="sum++">点我+1</button>
 </template>
 
 <script>
-import { reactive, computed } from "vue";
+import {
+  ref,
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+} from "vue";
 export default {
   name: "Demo",
   setup() {
-    let person = reactive({
-      firstName: "张",
-      lastName: "三",
+    // 数据
+    let sum = ref(0);
+    console.log("---setup---");
+    // 通过组合式api的形式，去使用生命周期钩子
+    onBeforeMount(() => {
+      console.log("---onBeforeMount---");
     });
-
-    // 计算属性 (没有考虑计算属性被修改的情况)
-    /* person.fullName = computed(() => {
-      return person.firstName + "-" + person.lastName;
-    }); */
-
-    // 计算属性完整写法（考虑读和写）
-    person.fullName = computed({
-      get() {
-        return person.firstName + "-" + person.lastName;
-      },
-      set(value) {
-        const nameArr = value.split("-");
-        person.firstName = nameArr[0];
-        person.lastName = nameArr[1];
-      },
+    onMounted(() => {
+      console.log("---onMounted---");
+    });
+    onBeforeUpdate(() => {
+      console.log("---onBeforeUpdate---");
+    });
+    onUpdated(() => {
+      console.log("---onUpdated---");
+    });
+    onBeforeUnmount(() => {
+      console.log("---onBeforeUnmount---");
+    });
+    onUnmounted(() => {
+      console.log("---onUnmounted---");
     });
 
     // 返回一个对象（常用）
     return {
-      person,
+      sum,
     };
   },
+  // 通过配置项形式使用生命钩子
+  //#region
+  beforeCreate() {
+    console.log("---beforeCreate---");
+  },
+  created() {
+    console.log("---created---");
+  },
+  beforeMount() {
+    console.log("---beforeMount---");
+  },
+  mounted() {
+    console.log("---mounted---");
+  },
+  beforeUpdate() {
+    console.log("---beforeUpdate---");
+  },
+  updated() {
+    console.log("---updated---");
+  },
+  beforeUnmount() {
+    console.log("---beforeUnmount---");
+  },
+  unmounted() {
+    console.log("---unmounted---");
+  },
+  //#endregion
 };
 </script>
 
