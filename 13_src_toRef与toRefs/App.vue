@@ -9,7 +9,7 @@ import Demo from "./components/Demo";
 export default {
   name: "App",
   components: { Demo },
-  setup() {
+  setup(props) {
     let isShowDemo = ref(true);
 
     return {
