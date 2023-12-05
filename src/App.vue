@@ -1,22 +1,30 @@
 <template>
-  <button @click="isShowDemo = !isShowDemo">切换隐藏/显示</button>
-  <Demo v-if="isShowDemo" />
+  <div class="app">
+    <h3>我是app组件</h3>
+    <Suspense>
+      <template v-slot:default>
+        <Child />
+      </template>
+      <template v-slot:fallback>
+        <h3>加载中。。。</h3>
+      </template>
+    </Suspense>
+  </div>
 </template>
 
 <script>
-import { ref } from "vue";
-import Demo from "./components/Demo";
+// import Child from "@/components/Child.vue"; // 静态引入
+import { defineAsyncComponent } from "vue";
+const Child = defineAsyncComponent(() => import("@/components/Child.vue")); // 异步引入
 export default {
   name: "App",
-  components: { Demo },
-  setup() {
-    let isShowDemo = ref(true);
-
-    return {
-      isShowDemo,
-    };
-  },
+  components: { Child },
 };
 </script>
 
-<style></style>
+<style>
+.app {
+  background-color: gray;
+  padding: 10px;
+}
+</style>
